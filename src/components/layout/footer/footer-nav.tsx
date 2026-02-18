@@ -5,11 +5,12 @@ interface FooterNavProps {
   label: string; // 已經翻譯過的文字
   subLabel?: string; // 已經翻譯過的文字
   href: string;
+  customClass?: string;
 }
 
-export default function FooterNav({ label, subLabel, href }: FooterNavProps) {
+export default function FooterNav({ label, subLabel, href, customClass }: FooterNavProps) {
   return (
-    <Link href={href} className="group flex flex-col items-center px-6">
+    <Link href={href} className={cn("group flex flex-col items-center px-6", customClass)}>
       <span className="text-sm font-semibold text-text-main group-hover:text-brand transition-colors">
         {label}
       </span>
