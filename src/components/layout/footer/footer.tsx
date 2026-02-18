@@ -1,47 +1,50 @@
 import { BaseFooter } from "@/src/types/footer.type";
 import { cn } from "@/lib/utils";
 import { Format } from "@/src/lib/format";
-import LinkLayout from "@/src/components/layout/links";
+import { ReactNode } from "react";
+import Logo from "@/src/components/common/logo";
 
 interface FooterProps extends BaseFooter {
+  children?: ReactNode;
   customClass?: string;
 }
 
-const links = [
-  { label: "目的地", subLabel: "Discover", href: "/explore" },
-  { label: "行程規劃", subLabel: "Planning", href: "/planner" },
-  { label: "支援中心", subLabel: "Support", href: "/help" },
-];
-
 export default function Footer(props: FooterProps) {
-  // 1. 防呆邏輯：如果沒有名稱，整個元件不出現
-  if (!props.name) {
-    return null;
-  }
+  const { name, startFrom, children, slogan, customClass } = props;
 
-  // 2. 使用你的 Format class 產生處理過 Unicode 的文字
-  // 不需要 new，直接呼叫 static 方法
-  const footerText = Format.copyright(props);
+  if (!name) return null;
+
+  const copyrightText = Format.copyright({ name, startFrom });
 
   return (
     <footer
       className={cn(
         "footer__container",
-        "w-full border-t border-border bg-background py-4",
-        props.customClass,
+        "w-full border-t border-border bg-background pt-16 pb-8",
+        customClass,
       )}
     >
-      <div className="footer__links">
-        {/* 1. 連結區域：排列鬆散，減少壓力 */}
-        <div className="flex justify-center gap-12 mb-16">
-          {links.map((link) => (
-            <LinkLayout key={link.label} {...link} />
-          ))}
+      <div className="container mx-auto px-6">
+        {/* 上半部：品牌與導覽的平衡 */}
+        <div className="flex flex-col md:flex-row justify-between items-start gap-12 mb-16">
+          {/* 左側：品牌區塊 (活潑與專業的起點) */}
+          <div className="footer__brand flex flex-col gap-4 max-w-sm">
+            <Logo className="h-10 w-auto -ml-2" /> {/* 稍微向左負偏移，對齊視覺邊界 */}
+            {slogan && <p className="text-sm text-text-muted leading-relaxed">{slogan}</p>}
+          </div>
+
+          {/* 右側：導覽區域 (Slot) */}
+          {children && (
+            <div className="footer__nav-area flex flex-wrap gap-4 md:gap-2">{children}</div>
+          )}
         </div>
-      </div>
-      <div className="footer__copyright container mx-auto px-4 text-center">
-        {/* 2. 版權區域：回歸極簡中心化 */}
-        <p className="text-sm text-text-muted">{footerText}</p>
+
+        {/* 下半部：版權區塊 */}
+        <div className="footer__copyright pt-8 border-t border-border/40">
+          <p className="text-xs tracking-widest text-text-subtle/60 text-center md:text-left font-medium">
+            {copyrightText}
+          </p>
+        </div>
       </div>
     </footer>
   );

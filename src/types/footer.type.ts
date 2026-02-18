@@ -3,4 +3,6 @@ export type BaseFooter = {
   startFrom?: string;
   // 公司名稱
   name: string;
+  // 標語
+  slogan?: string;
 };
