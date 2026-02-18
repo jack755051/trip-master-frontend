@@ -31,8 +31,17 @@ export default function Footer(props: FooterProps) {
         <div className="flex flex-col md:flex-row justify-between items-start gap-12 mb-16">
           {/* 左側：品牌區塊 (活潑與專業的起點) */}
           <div className="footer__brand flex flex-col gap-4 max-w-sm">
-            <Logo className="h-10 w-auto -ml-2" /> {/* 稍微向左負偏移，對齊視覺邊界 */}
-            {slogan && <p className="text-sm text-text-muted leading-relaxed">{slogan}</p>}
+            <Logo className="h-10 w-auto -ml-2" />
+            {slogan && (
+              <p
+                className={cn(
+                  "text-sm text-text-muted leading-relaxed",
+                  "min-h-[4.5rem] md:min-h-[5rem]", // 👈 設定最小高度，確保 2-3 行字都不會抖動
+                )}
+              >
+                {slogan}
+              </p>
+            )}
           </div>
 
           {/* 右側：導覽區域 (Slot) */}
