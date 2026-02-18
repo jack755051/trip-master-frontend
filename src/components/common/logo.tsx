@@ -38,15 +38,16 @@ export default function Logo({ className }: LogoProps) {
       {/* 2. 圖形合體層 */}
       <g>
         {/* i 的起點圓心：(44.5, 39), 半徑 5.5 */}
-        <circle cx="42.5" cy="38" r="3" fill="var(--brand)" />
+        <circle cx="45" cy="38" r="3" fill="var(--brand)" />
 
-        {/* e 的終點 Pin：頂部尖端約在 (152, 42) */}
-        <g transform="translate(152, 52)">
+        {/* e 的終點 Pin：頂部尖端約在 (161, 42) */}
+        <g transform="translate(161, 52)">
           <path
             d="M 0 8 L -5 0 C -7 -3, -7 -10, 0 -10 C 7 -10, 7 -3, 5 0 L 0 8 Z"
             fill="var(--brand)"
           />
-          <circle r="2" fill="white" />
+          {/* 修改這裡：加入 cy="-5" 讓圓點向上移動 5 個單位，剛好位於大頭針頭部中心 */}
+          <circle cx="0" cy="-5" r="1.75" fill="white" />
         </g>
 
         {/* 3. 調整後的路徑 (Adjusted Path) */}
@@ -60,7 +61,7 @@ export default function Logo({ className }: LogoProps) {
                  終點 (最後兩個數字): 從原本的 152 42 修改為 149 36。
                  向左上方移動，離開了 Pin 的頂部尖端。
               */
-          d="M 47 32 Q 98 5, 149 36"
+          d="M 47 32 Q 98 5, 161 36"
           stroke="var(--auxiliary)"
           strokeWidth="3"
           strokeDasharray="5 5"
