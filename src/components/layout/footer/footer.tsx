@@ -1,3 +1,5 @@
+"use client";
+
 import { BaseFooter } from "@/src/types/footer.type";
 import { cn } from "@/lib/utils";
 import { Format } from "@/src/lib/format";
