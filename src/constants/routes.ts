@@ -15,6 +15,11 @@ export const MARKETING_HEADER_ROUTES: NavRoute[] = [
 // 2. Footer 導航 (底部)：可以比較豐富，包含 App 入口或關於我們
 export const MARKETING_FOOTER_ROUTES: NavRoute[] = [
   {
+    labelKey: "nav.dashboard",
+    subLabelKey: "common.sub-dashboard",
+    href: "/dashboard",
+  },
+  {
     labelKey: "nav.about", // 假設你有加這條翻譯
     subLabelKey: "common.sub-about",
     href: "/about",
