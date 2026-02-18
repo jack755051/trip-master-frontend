@@ -6,7 +6,7 @@ import {
   MenubarItem,
   MenubarMenu,
   MenubarTrigger,
-} from "@/components/ui/menubar";
+} from "@/src/components/ui/menubar";
 import { Globe } from "lucide-react"; // 增加親切感的圖示
 import { useTranslations } from "@/src/hooks/useTranslations";
 import { cn } from "@/lib/utils";
