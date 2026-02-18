@@ -1,3 +1,4 @@
+// src/components/common/logo.tsx
 import { cn } from "@/lib/utils";
 
 interface LogoProps {
@@ -7,49 +8,53 @@ interface LogoProps {
 export default function Logo({ className }: LogoProps) {
   return (
     <svg
-      className={cn("h-10 w-auto", className)} // 高度微調，更精緻
-      viewBox="0 0 320 80"
+      width="240"
+      height="64"
+      viewBox="0 0 240 64"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      role="img"
-      aria-label="Trip-Master"
+      className={cn("logo__svg", className)}
     >
-      {/* 整合式標誌：Pin + 飛向未來的路徑 */}
-      <g transform="translate(5, 15)">
-        {/* 背景太陽 / Pin 核心：使用漸層或純色 */}
-        <circle cx="25" cy="25" r="22" fill="var(--brand)" fillOpacity="0.1" />
-        <circle cx="25" cy="25" r="10" fill="var(--brand)" />
+      {/* 核心意圖：模組化規劃 (The Bento Logic)
+        規劃就是將零散的碎片（時間、機票、景點）放入完美的容器中。
+      */}
+      <g transform="translate(8, 12)">
+        {/* 區塊 1：基礎框架 - 代表時間軸或大項規劃 */}
+        <rect x="0" y="0" width="16" height="40" rx="4" fill="var(--brand)" />
 
-        {/* 極簡流線：從地點出發的路徑 */}
-        <path
-          d="M25 25C45 25 60 10 75 10"
-          stroke="var(--auxiliary)"
-          strokeWidth="3"
-          strokeLinecap="round"
-          strokeDasharray="0.1 8" // 點狀路徑，增加呼吸感
-        />
+        {/* 區塊 2：動態內容 - 代表具體的行程項目，位置略高，產生視覺節奏 */}
+        <rect x="22" y="8" width="16" height="32" rx="4" fill="var(--auxiliary)" />
 
-        {/* 紙飛機：簡化為三個點構成的幾何形 */}
-        <path d="M72 5L85 10L72 15L75 10Z" fill="var(--auxiliary)" />
+        {/* 區塊 3：目的地/亮點 - 點睛之筆，代表規劃的結果 */}
+        <rect x="44" y="0" width="16" height="20" rx="4" fill="var(--brand)" fillOpacity="0.6" />
+        <rect x="44" y="26" width="16" height="14" rx="4" fill="var(--brand)" />
       </g>
 
-      {/* WORDMARK：拿掉底線，依靠字體排版勝出 */}
-      <g transform="translate(100, 48)">
-        <text
-          fontSize="28"
-          fontWeight="700"
-          fill="var(--color-text-main)"
-          fontFamily="ui-sans-serif, system-ui, -apple-system"
-          letterSpacing="-0.03em"
-        >
-          Trip
-          <tspan fill="var(--brand)" fontWeight="400">
-            Master
-          </tspan>
-        </text>
-        {/* 只保留一個極小、具有畫龍點睛效果的點 */}
-        <circle cx="156" cy="-8" r="3" fill="var(--auxiliary)" />
-      </g>
+      {/* 品牌文字：強大的排版是 Apple 風格的靈魂 */}
+      <text
+        x="80"
+        y="42"
+        className="font-bold tracking-tighter"
+        style={{
+          fontSize: "28px",
+          fontFamily: "Inter, -apple-system, system-ui, sans-serif",
+          fill: "var(--color-text-main)",
+        }}
+      >
+        Trip
+        <tspan className="font-light tracking-normal" style={{ fill: "var(--color-text-muted)" }}>
+          Master
+        </tspan>
+      </text>
+
+      {/* 點綴：一個極小的斜向箭頭，代表「前往目的地」的動能，隱含在文字末尾 */}
+      <path
+        d="M210 24 L216 18 M216 18 L210 18 M216 18 L216 24"
+        stroke="var(--brand)"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
