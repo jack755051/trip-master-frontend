@@ -2,7 +2,7 @@
 
 import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { BaseFooter } from "@/src/types/header.type";
+import { BaseFooter } from "@/src/types/header.type"; // 確認路徑是否正確
 
 interface HeaderProps extends BaseFooter {
   customClass?: string;
@@ -18,15 +18,22 @@ export default function Header(props: HeaderProps) {
         customClass,
       )}
     >
-      <div className="header__content container mx-auto flex h-20 items-center justify-between px-4">
-        {/* 左側：通常放 Logo */}
-        <div className="header__left flex items-center">{left}</div>
+      {/* 修改重點：
+         1. 移除 `justify-between`，改用預設的 `justify-start` (flex 預設值)。
+         2. 加入 `gap-8` (或是 gap-12)，設定 Logo 與 Nav 之間的間距。
+      */}
+      <div className="header__content container mx-auto flex h-20 items-center px-4 gap-8">
+        {/* 左側：Logo */}
+        <div className="header__left flex items-center flex-shrink-0">{left}</div>
 
-        {/* 中間：通常放主要的 Nav (這專案目前 Nav 在 Footer) */}
+        {/* 中間：Nav (現在會緊跟在 Logo 右側，間距由外層 gap-8 控制) */}
         <div className="header__center hidden md:flex items-center">{center}</div>
 
-        {/* 右側：放 Toolbar / 語系切換 / 登入 */}
-        <div className="header__right flex items-center gap-4">{right}</div>
+        {/* 右側：Toolbar */}
+        {/* 關鍵修改：加入 `ml-auto`
+           這會佔據左側所有剩餘空間，將此區塊推到最右邊
+        */}
+        <div className="header__right ml-auto flex items-center gap-4">{right}</div>
       </div>
     </header>
   );
