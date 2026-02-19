@@ -10,4 +10,9 @@ export const common = {
   "sub-dashboard": "Dashboard",
   "sub-create": "Create",
   "sub-about": "About",
+
+  // === 新增 Badge 翻譯 ===
+  "badge-hot": "Hot",
+  "badge-new": "New",
+  "badge-editor-choice": "Editor's Choice",
 };

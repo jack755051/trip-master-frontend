@@ -7,6 +7,8 @@ export type BaseLink = {
   subLabel: string;
 };
 
+export type TripBadgeType = "HOT" | "NEW" | "EDITOR_CHOICE";
+
 export type BaseTripCardData = {
   id: string;
   title: string;
@@ -15,4 +17,5 @@ export type BaseTripCardData = {
   likes: number;
   gradient: string; // 暫時用 CSS class string，未來可能是 thumbnailUrl
   tags: string[];
+  badge?: TripBadgeType;
 };
