@@ -9,4 +9,9 @@ export const home = {
 
   // 未來的預留 (原本的保留)
   "search-placeholder": "你想去哪裡？",
+
+  // Trending Section
+  "trending-title": "探索旅人的足跡",
+  "trending-subtitle": "從社群中尋找靈感，一鍵複製並展開你的下一趟專屬旅程。",
+  "trending-view-more": "探索更多行程",
 };

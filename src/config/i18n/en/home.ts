@@ -9,4 +9,10 @@ export const home = {
 
   // 未來的預留 (原本的保留)
   "search-placeholder": "Where do you want to go?",
+
+  // Trending Section
+  "trending-title": "Trending Itineraries",
+  "trending-subtitle":
+    "Find inspiration from the community, clone with one click, and start your next journey.",
+  "trending-view-more": "Explore More Trips",
 };

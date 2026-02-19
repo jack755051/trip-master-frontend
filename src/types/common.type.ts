@@ -6,3 +6,13 @@ export type BaseLink = {
   // 顯示副標題
   subLabel: string;
 };
+
+export type BaseTripCardData = {
+  id: string;
+  title: string;
+  days: string;
+  author: string;
+  likes: number;
+  gradient: string; // 暫時用 CSS class string，未來可能是 thumbnailUrl
+  tags: string[];
+};
