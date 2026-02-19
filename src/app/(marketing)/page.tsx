@@ -1,7 +1,7 @@
 import HeroSection from "@/src/components/sections/home/hero/hero-section";
 import TrendingSection from "@/src/components/sections/home/trending/trending-section";
-import FeatureSection from "@/src/components/sections/home/feature-section";
-import CtaSection from "@/src/components/sections/home/cta-section";
+import FeatureSection from "@/src/components/sections/home/feature/feature-section";
+import CtaSection from "@/src/components/sections/home/cta/cta-section";
 
 export default function Home() {
   return (

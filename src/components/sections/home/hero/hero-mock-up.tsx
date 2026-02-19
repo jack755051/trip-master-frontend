@@ -3,7 +3,7 @@
 
 import { MapPin, Navigation, StickyNote } from "lucide-react";
 
-export default function HeroMockUpSection() {
+export default function HeroMockUp() {
   return (
     <div className="relative hidden lg:flex items-center justify-center w-full h-full min-h-[500px] perspective-1000">
       {/* 主視窗容器 (App Window Mockup)

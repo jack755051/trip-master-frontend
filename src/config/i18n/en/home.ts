@@ -33,9 +33,9 @@ export const home = {
   "feature-3-desc":
     "Invite travel buddies. Whether voting on spots or splitting research, updates sync instantly.",
 
-  // CTA Section
-  "cta-title": "Ready to start your journey?",
+  // CTA Section - Focus on Planning Flow
+  "cta-title": "Turn Inspiration into Footprints",
   "cta-subtitle":
-    "Join smart travelers and experience planning fluidity like never before. Free forever, no credit card required.",
-  "cta-btn": "Get Started for Free",
+    "Don't let tools interrupt your flow. Focus on where you want to go, and organize your scattered ideas into the perfect itinerary.",
+  "cta-btn": "Start Planning Now",
 };

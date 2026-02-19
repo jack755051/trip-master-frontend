@@ -3,7 +3,7 @@ import { ArrowRight, Map } from "lucide-react";
 import { useTranslations } from "@/src/hooks/useTranslations";
 import { Button } from "@/src/components/ui/button"; // 引入 Shadcn Button
 
-export default function HeroCopywritingSection() {
+export default function HeroCopywriting() {
   const { t } = useTranslations();
 
   return (

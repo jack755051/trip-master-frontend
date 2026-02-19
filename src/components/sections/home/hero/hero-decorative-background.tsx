@@ -1,5 +1,5 @@
 // src/components/sections/home/hero/hero-decorative-background-section.tsx
-export default function HeroDecorativeBackgroundSection() {
+export default function HeroDecorativeBackground() {
   return (
     <div
       // 1. 改用非常淡的 Hex Alpha 顏色：#0000000f (約 6% 透明度的黑)

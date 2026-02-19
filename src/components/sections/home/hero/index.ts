@@ -1,4 +1,4 @@
 export * from "./hero-section";
-export * from "./hero-mock-up-section";
-export * from "./hero-copywriting-section";
-export * from "./hero-decorative-background-section";
+export * from "./hero-mock-up";
+export * from "./hero-copywriting";
+export * from "./hero-decorative-background";
