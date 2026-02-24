@@ -9,7 +9,7 @@ export default function ForgotPassword({ onSwitchLogin }: { onSwitchLogin: () =>
   const { t } = useTranslations();
 
   return (
-    <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-500">
+    <div className="space-y-6">
       <div className="text-center">
         <h2 className="text-xl font-bold text-text-main">{t("auth.forgot-title")}</h2>
         <p className="text-xs text-text-subtle mt-2">{t("auth.forgot-desc")}</p>

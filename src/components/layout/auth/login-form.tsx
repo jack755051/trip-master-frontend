@@ -14,7 +14,7 @@ export default function LoginForm({ onSwitchForgot }: LoginFormProps) {
   const { t } = useTranslations();
 
   return (
-    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="space-y-6">
       <div className="flex flex-col items-center mb-4">
         <Logo className="h-10 w-auto mb-2" />
         <h2 className="text-xl font-bold text-text-main">{t("auth.login-title")}</h2>

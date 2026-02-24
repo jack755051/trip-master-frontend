@@ -14,7 +14,7 @@ export default function RegisterForm({ onSwitchLogin }: RegisterFormProps) {
   const { t } = useTranslations();
 
   return (
-    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="space-y-6">
       {/* 頂部標題 */}
       <div className="flex flex-col items-center mb-2">
         <Logo className="h-10 w-auto mb-2" />
