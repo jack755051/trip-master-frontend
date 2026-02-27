@@ -1,22 +1,29 @@
 "use client";
 
-import { BaseFooter } from "@/src/types/footer.type";
 import { cn } from "@/lib/utils";
 import { Format } from "@/src/lib/format";
 import { ReactNode } from "react";
 import Logo from "@/src/components/common/logo";
+import { useTranslations } from "@/src/hooks/useTranslations";
 
-interface FooterProps extends BaseFooter {
+interface FooterProps {
+  startFrom?: string;
+  name?: string;
+  slogan?: string;
   children?: ReactNode;
   customClass?: string;
 }
 
 export default function Footer(props: FooterProps) {
+  const { t } = useTranslations();
   const { name, startFrom, children, slogan, customClass } = props;
+  const resolvedName = name ?? t("common.site-name");
+  const resolvedSlogan = slogan ?? t("common.footer-slogan");
 
-  if (!name) return null;
-
-  const copyrightText = Format.copyright({ name, startFrom });
+  const copyrightText = Format.copyright(
+    { name: resolvedName, startFrom },
+    t("common.copyright"),
+  );
 
   return (
     <footer
@@ -32,14 +39,14 @@ export default function Footer(props: FooterProps) {
           {/* 左側：品牌區塊 (活潑與專業的起點) */}
           <div className="footer__brand flex flex-col gap-4 max-w-sm">
             <Logo className="h-10 w-auto -ml-2" />
-            {slogan && (
+            {resolvedSlogan && (
               <p
                 className={cn(
                   "text-sm text-text-muted leading-relaxed",
                   "min-h-[4.5rem] md:min-h-[5rem]", // 👈 設定最小高度，確保 2-3 行字都不會抖動
                 )}
               >
-                {slogan}
+                {resolvedSlogan}
               </p>
             )}
           </div>

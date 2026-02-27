@@ -7,7 +7,6 @@ import {
   LOCALE_COOKIE_KEY,
   resolveLocale,
 } from "@/src/services/i18n-service";
-import { useRouter } from "next/navigation";
 import {
   createContext,
   ReactNode,
@@ -34,7 +33,6 @@ export function I18nProvider({
   initialLocale?: string;
   children: ReactNode;
 }) {
-  const router = useRouter();
   const [locale, setLocale] = useState<Locale>(resolveLocale(initialLocale));
 
   const t = useMemo(() => createTranslator(locale), [locale]);
@@ -45,9 +43,8 @@ export function I18nProvider({
 
       document.cookie = `${LOCALE_COOKIE_KEY}=${nextLocale}; path=/; max-age=31536000; samesite=lax`;
       setLocale(nextLocale);
-      router.refresh();
     },
-    [router],
+    [],
   );
 
   const value = useMemo(

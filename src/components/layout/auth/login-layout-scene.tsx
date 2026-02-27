@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
-import AuthLocaleToggle from "@/src/components/sections/auth/auth-locale-toggle";
+import LocaleToggle from "@/src/components/common/locale-toggle";
 
 export default function LoginLayoutScene({ children }: { children: ReactNode }) {
   return (
@@ -20,7 +20,7 @@ export default function LoginLayoutScene({ children }: { children: ReactNode }) 
       <div className="absolute inset-0 z-10 bg-gradient-to-r from-background/80 via-background/20 to-transparent" />
 
       <div className="absolute right-4 top-4 z-30 sm:right-6 sm:top-6">
-        <AuthLocaleToggle />
+        <LocaleToggle />
       </div>
 
       <main className="relative z-20 container mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1fr_450px] items-center gap-12">
