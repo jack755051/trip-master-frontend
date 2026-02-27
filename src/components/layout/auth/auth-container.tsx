@@ -85,12 +85,7 @@ export default function AuthContainer() {
 
                 {/* 表單內容 */}
                 <div className="relative z-10">
-                  {mode === "login" && (
-                    <LoginForm
-                      onSwitchRegister={() => setMode("register")}
-                      onSwitchForgot={() => setMode("forgot")}
-                    />
-                  )}
+                  {mode === "login" && <LoginForm onSwitchForgot={() => setMode("forgot")} />}
                   {mode === "register" && <RegisterForm onSwitchLogin={() => setMode("login")} />}
                   {mode === "forgot" && <ForgotPassword onSwitchLogin={() => setMode("login")} />}
                 </div>

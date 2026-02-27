@@ -5,11 +5,12 @@ export const auth = {
   forgetPassword: "Forget Password",
   "already-have-account": "Already have an account?",
   "back-to-login": "Back to Login",
+  "forgot-password": "Forgot Password?",
   // top text
   "login-subtitle": "Plan your Route",
   "login-title": "Continue Journey",
   "register-subtitle": "Start your Journey",
-  "register-title": "Join Trip Master",
+  "register-title": "Join Us",
   "forgot-subtitle": "Recover Access",
   "forgot-title": "Reset Password",
   // Placeholder text

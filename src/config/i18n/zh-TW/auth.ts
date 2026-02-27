@@ -5,11 +5,12 @@ export const auth = {
   forgetPassword: "忘記密碼",
   "already-have-account": "已有帳號?",
   "back-to-login": "回到登入",
+  "forgot-password": "忘記密碼",
   // 頂部文字
   "login-subtitle": "Plan your Route",
   "login-title": "繼續行程",
   "register-subtitle": "Start your Journey",
-  "register-title": "加入 Trip Master",
+  "register-title": "加入我們",
   "forgot-subtitle": "Recover Access",
   "forgot-title": "找回密碼",
   // Placeholder 文字
