@@ -2,56 +2,44 @@
 
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
-import Logo from "@/src/components/common/logo";
 import { useTranslations } from "@/src/hooks/useTranslations";
+import { ArrowLeft, Plane } from "lucide-react";
 
-interface LoginFormProps {
-  onSwitchRegister: () => void;
-  onSwitchForgot: () => void;
-}
-
-export default function LoginForm({ onSwitchForgot }: LoginFormProps) {
+export default function LoginForm({ onSwitchForgot }: { onSwitchForgot: () => void }) {
   const { t } = useTranslations();
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col items-center mb-4">
-        <Logo className="h-10 w-auto mb-2" />
-        <h2 className="text-xl font-bold text-text-main">{t("auth.login-title")}</h2>
-      </div>
-
-      <div className="space-y-4">
+    <div className="space-y-5">
+      <div className="space-y-3">
         <Input
           type="email"
           placeholder={t("auth.account-placeholder")}
-          className="h-12 rounded-xl"
+          className="h-12 rounded-2xl bg-white/60 border-white/50 shadow-sm px-5 focus-visible:ring-brand/40 focus:bg-white transition-all"
         />
-        <div className="space-y-1">
+        <div className="space-y-2">
           <Input
             type="password"
             placeholder={t("auth.password-placeholder")}
-            className="h-12 rounded-xl"
+            className="h-12 rounded-2xl bg-white/60 border-white/50 shadow-sm px-5 focus-visible:ring-brand/40 focus:bg-white transition-all"
           />
-          <div className="text-right">
+          {/* 統一對齊位置與間距 */}
+          <div className="flex justify-end px-1">
             <button
               onClick={onSwitchForgot}
-              className="text-[11px] text-text-subtle hover:text-brand transition-colors font-medium hover:cursor-pointer"
+              className="flex items-center gap-1.5 text-[11px] text-text-muted hover:text-brand transition-colors font-medium hover:cursor-pointer py-1"
             >
+              <ArrowLeft size={12} />
               {t("auth.forgot-password")}
             </button>
           </div>
         </div>
       </div>
 
-      <Button className="w-full h-14 bg-brand hover:bg-brand/90 text-white rounded-xl font-bold text-lg group overflow-hidden">
-        <span className="relative z-10">{t("auth.login")}</span>
-        {/* 紙飛機噴射動畫 */}
-        <svg
-          className="ml-2 w-5 h-5 transition-transform duration-500 group-hover:translate-x-24 group-hover:-translate-y-24"
-          viewBox="0 0 24 24"
-        >
-          <path d="M22 2L2 10L10 14L22 2Z" fill="currentColor" />
-        </svg>
+      <Button className="w-full h-12 bg-brand hover:bg-brand-hover text-white rounded-2xl font-bold group relative overflow-hidden transition-all shadow-lg shadow-brand/20 active:scale-95">
+        <span className="relative z-10 flex items-center justify-center gap-2">
+          {t("auth.login")}
+          <Plane className="w-5 h-5 rotate-45 transition-all duration-500 ease-in group-hover:translate-x-24 group-hover:opacity-0" />
+        </span>
       </Button>
     </div>
   );

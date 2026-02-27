@@ -16,11 +16,11 @@ export default function AuthContainer() {
   const { t } = useTranslations();
 
   return (
-    <div className="w-full max-w-md relative">
-      {/* 1. 資料夾標籤區域 */}
-      <div className="flex h-12 relative items-end">
-        {mode !== "forgot" && (
-          <div className="flex">
+    <div className="w-full max-w-md">
+      {/* 1. 核心導航：路徑切換器 (Path Switcher) */}
+      {mode !== "forgot" && (
+        <div className="mb-8 flex justify-center">
+          <div className="relative p-1 bg-white/5 backdrop-blur-md border border-white/10 rounded-full flex items-center">
             {["login", "register"].map((tab) => {
               const isActive = mode === tab;
               return (
@@ -28,67 +28,77 @@ export default function AuthContainer() {
                   key={tab}
                   onClick={() => setMode(tab as AuthMode)}
                   className={cn(
-                    "px-10 py-3 rounded-t-2xl font-bold text-sm transition-colors duration-500 relative",
-                    isActive
-                      ? "bg-white/90 text-brand z-20"
-                      : "bg-white/10 text-white/50 hover:text-white/80 z-10",
+                    "relative px-8 py-2.5 text-sm font-medium transition-all duration-500",
+                    isActive ? "text-brand-foreground" : "text-white/40 hover:text-white/70",
                   )}
                 >
                   <span className="relative z-10">{t(`auth.${tab}`)}</span>
-
-                  {/* 標籤切換時的優雅滑動 */}
                   {isActive && (
                     <motion.div
-                      layoutId="activeTabBg"
-                      className="absolute inset-0 bg-white/90 rounded-t-2xl -z-10"
-                      transition={relaxedBouncy}
-                    />
-                  )}
-                  {isActive && (
-                    <motion.span
-                      layoutId="activeTabLine"
-                      className="absolute bottom-0 left-0 w-full h-1 bg-brand z-30"
-                      transition={relaxedBouncy}
+                      layoutId="nav-pill"
+                      className="absolute inset-0 bg-brand rounded-full shadow-[0_0_20px_rgba(var(--brand),0.4)]"
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                     />
                   )}
                 </button>
               );
             })}
           </div>
-        )}
-      </div>
-
-      {/* 2. 主要面板容器 */}
-      <motion.div
-        layout
-        transition={relaxedBouncy}
-        className={cn(
-          "bg-white/40 backdrop-blur-2xl shadow-2xl border border-white/30 relative overflow-hidden", // 降低背景 A 值，提高模糊
-          mode === "forgot" ? "rounded-3xl" : "rounded-3xl rounded-tl-none",
-        )}
-      >
-        <div className="p-10">
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={mode}
-              // 內容切換：配合外層放慢的速度，淡入淡出也要稍作延展
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 1.01 }}
-              transition={{ duration: 0.35, ease: "easeInOut" }}
-            >
-              {mode === "login" && (
-                <LoginForm
-                  onSwitchRegister={() => setMode("register")}
-                  onSwitchForgot={() => setMode("forgot")}
-                />
-              )}
-              {mode === "register" && <RegisterForm onSwitchLogin={() => setMode("login")} />}
-              {mode === "forgot" && <ForgotPassword onSwitchLogin={() => setMode("login")} />}
-            </motion.div>
-          </AnimatePresence>
         </div>
-      </motion.div>
+      )}
+
+      {/* 2. 容器設計：層疊的規劃感 */}
+      <div className="relative group">
+        {/* 背景裝飾：模擬規劃圖的經緯線 */}
+
+        <motion.div
+          layout
+          transition={relaxedBouncy}
+          className={cn(
+            "relative bg-background/80 backdrop-blur-3xl border border-white/10 rounded-[2rem] overflow-hidden shadow-2xl",
+          )}
+        >
+          <div className="p-10">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={mode}
+                initial={{ opacity: 0, y: 10, filter: "blur(10px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                exit={{ opacity: 0, y: -10, filter: "blur(10px)" }}
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              >
+                {/* 標題區域：強化「規劃」與「分享」的轉場 */}
+                <div className="mb-8">
+                  <motion.span
+                    layoutId="subtitle"
+                    className="text-xs tracking-[0.2em] uppercase text-brand font-bold"
+                  >
+                    {/* 動態渲染對應模式的副標題 */}
+                    {t(`auth.${mode}-subtitle`)}
+                  </motion.span>
+
+                  <h2 className="text-3xl font-light text-text-main mt-1 tracking-tight">
+                    {/* 動態渲染對應模式的主標題 */}
+                    {t(`auth.${mode}-title`)}
+                  </h2>
+                </div>
+
+                {/* 表單內容 */}
+                <div className="relative z-10">
+                  {mode === "login" && (
+                    <LoginForm
+                      onSwitchRegister={() => setMode("register")}
+                      onSwitchForgot={() => setMode("forgot")}
+                    />
+                  )}
+                  {mode === "register" && <RegisterForm onSwitchLogin={() => setMode("login")} />}
+                  {mode === "forgot" && <ForgotPassword onSwitchLogin={() => setMode("login")} />}
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </motion.div>
+      </div>
     </div>
   );
 }

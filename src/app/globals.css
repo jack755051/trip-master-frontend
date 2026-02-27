@@ -103,3 +103,22 @@
     @apply bg-background text-foreground antialiased;
   }
 }
+
+@keyframes paper-plane-out {
+  0% {
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  20% {
+    transform: translate(-70%, -20%) scale(1.1) rotate(-15deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(200%, -300%) scale(0.5) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+.animate-paper-plane-out {
+  animation: paper-plane-out 0.8s forwards ease-in;
+}
