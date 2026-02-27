@@ -2,8 +2,6 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import Link from "next/link";
-import { ArrowRight, Map } from "lucide-react";
 import HeroMockUp from "@/src/components/sections/home/hero/hero-mock-up";
 import HeroCopywriting from "@/src/components/sections/home/hero/hero-copywriting";
 import HeroDecorativeBackground from "@/src/components/sections/home/hero/hero-decorative-background"; // 假設你有安裝 lucide-react

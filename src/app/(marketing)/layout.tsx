@@ -1,6 +1,5 @@
 import React from "react";
 import Footer from "@/src/components/layout/footer/footer";
-import FooterNav from "@/src/components/layout/footer/footer-nav";
 import Header from "@/src/components/layout/header/header";
 import Logo from "@/src/components/common/logo";
 import { getFooterData } from "@/src/services/footer-service";
