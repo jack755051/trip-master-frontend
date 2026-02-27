@@ -9,15 +9,11 @@ import {
 } from "@/src/components/ui/menubar";
 import { Globe } from "lucide-react"; // 增加親切感的圖示
 import { useTranslations } from "@/src/hooks/useTranslations";
+import { localeOptions } from "@/src/config/i18n/locale-options";
 import { cn } from "@/lib/utils";
 
 export default function LocaleSwitcher() {
   const { locale, setLanguage } = useTranslations();
-
-  const languages = [
-    { label: "繁體中文", value: "zh-TW" },
-    { label: "English", value: "en" },
-  ];
 
   return (
     <Menubar className="border-none bg-transparent shadow-none">
@@ -29,7 +25,7 @@ export default function LocaleSwitcher() {
           </div>
         </MenubarTrigger>
         <MenubarContent align="end" className="min-w-[120px]">
-          {languages.map((lang) => (
+          {localeOptions.map((lang) => (
             <MenubarItem
               key={lang.value}
               onClick={() => setLanguage(lang.value)}
