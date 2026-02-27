@@ -1,4 +1,4 @@
-import AuthContainer from "@/src/components/layout/auth/auth-container";
+import AuthContainer from "@/src/components/sections/auth/auth-container";
 
 /**
  * 登入頁面的進入點
