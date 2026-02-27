@@ -20,7 +20,8 @@ export default function AuthContainer() {
       {/* 1. 核心導航：路徑切換器 (Path Switcher) */}
       {mode !== "forgot" && (
         <div className="mb-8 flex justify-center">
-          <div className="relative p-1 bg-white/5 backdrop-blur-md border border-white/10 rounded-full flex items-center">
+          {/* 增加 min-w 防止切換語系時容器過度縮放，並使用 flex w-full 讓內部均分 */}
+          <div className="relative flex min-w-[240px] items-center rounded-full border border-border/60 bg-background/70 p-1 shadow-sm backdrop-blur-md">
             {["login", "register"].map((tab) => {
               const isActive = mode === tab;
               return (
@@ -28,16 +29,21 @@ export default function AuthContainer() {
                   key={tab}
                   onClick={() => setMode(tab as AuthMode)}
                   className={cn(
-                    "relative px-8 py-2.5 text-sm font-medium transition-all duration-500",
-                    isActive ? "text-brand-foreground" : "text-white/40 hover:text-white/70",
+                    // 關鍵點：使用 flex-1 均分空間，whitespace-nowrap 防止換行
+                    "relative flex-1 whitespace-nowrap rounded-full px-4 py-2.5 text-sm font-medium transition-all duration-500",
+                    isActive ? "text-brand-foreground" : "text-text-main/70 hover:text-text-main",
                   )}
                 >
-                  <span className="relative z-10">{t(`auth.${tab}`)}</span>
+                  {/* 使用 layout 確保文字在寬度變化時平滑移動 */}
+                  <motion.span layout className="relative z-10 block text-center">
+                    {t(`auth.${tab}`)}
+                  </motion.span>
+
                   {isActive && (
                     <motion.div
                       layoutId="nav-pill"
-                      className="absolute inset-0 bg-brand rounded-full shadow-[0_0_20px_rgba(var(--brand),0.4)]"
-                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                      className="absolute inset-0 rounded-full bg-brand shadow-[0_0_20px_rgba(var(--brand),0.25)]"
+                      transition={relaxedBouncy}
                     />
                   )}
                 </button>

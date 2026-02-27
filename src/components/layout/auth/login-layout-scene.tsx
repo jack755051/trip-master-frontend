@@ -3,13 +3,14 @@
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
 import LocaleToggle from "@/src/components/common/locale-toggle";
+import LoginLayoutBrandSection from "@/src/components/layout/auth/login-layout-brand-section";
 
 export default function LoginLayoutScene({ children }: { children: ReactNode }) {
   return (
     <div className="relative min-h-screen w-full flex items-center overflow-hidden">
       <div className="absolute inset-0 z-0">
         <motion.img
-          src="/images/login-landscape.jpg"
+          src="/images/login-landscape-04.jpg"
           className="h-full w-full object-cover"
           initial={{ scale: 1.1 }}
           animate={{ scale: 1.05 }}
@@ -24,16 +25,7 @@ export default function LoginLayoutScene({ children }: { children: ReactNode }) 
       </div>
 
       <main className="relative z-20 container mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1fr_450px] items-center gap-12">
-        <div className="hidden lg:block space-y-4 animate-in fade-in slide-in-from-left-8 duration-1000">
-          <h1 className="text-6xl font-black text-white leading-tight tracking-tighter">
-            EXPLORE
-            <br />
-            <span className="text-brand">BEYOND</span>
-          </h1>
-          <p className="text-white/60 text-lg font-medium tracking-widest uppercase">
-            Trip Master / Digital Concierge
-          </p>
-        </div>
+        <LoginLayoutBrandSection />
 
         <motion.div
           initial={{ y: 20, opacity: 0 }}

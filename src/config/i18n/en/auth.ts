@@ -1,4 +1,6 @@
 export const auth = {
+  "hero-title": "PLAN THE MOMENT,\nSHARE THE STORY.",
+  "hero-subtitle": "Trip Master / Your Intelligent Itinerary Assistant",
   // Buttons
   login: "Login",
   register: "Register",

@@ -1,4 +1,6 @@
 export const auth = {
+  "hero-title": "規劃，是期待的開始。\n分享，讓感動延續。",
+  "hero-subtitle": "Trip Master / 你的專屬智慧行程規劃家",
   // 按鈕
   login: "登入",
   register: "註冊",
