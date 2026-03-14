@@ -1,0 +1,52 @@
+# ==========================================
+# TechLead Pro: 企業級 Next.js .dockerignore
+# ==========================================
+
+# 1. 依賴與本地端產物 (絕對禁止進入 Docker)
+node_modules
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+
+# 2. Next.js 本地編譯結果 (必須由 Docker 內部自行 Build)
+.next
+out
+build
+*.tsbuildinfo
+
+# 3. 環境變數與機密資訊 (防範資安外洩)
+.env*.local
+.env.development
+.env.test
+# 💡 註：若依賴 Runtime 注入，連 .env 都可以忽略，由 docker-compose 或 k8s 傳入
+
+# 4. 版控與基礎設施檔 (無需打包進 Image)
+.git
+.gitignore
+.husky
+docker-compose*.yml
+.dockerignore
+Makefile
+
+# 5. IDE 與作業系統暫存檔 (防止打破 Docker 快取)
+.idea
+.vscode
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# 6. 測試產物與日誌 (瘦身關鍵)
+coverage
+vitest/
+wsl/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# 7. 文檔與無關業務邏輯的文件 (可選，極致瘦身)
+README.md
+docs/
+markdown_group/

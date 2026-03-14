@@ -1,8 +1,6 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
-/node_modules
-/.pnp
+# --- 依賴管理 (Dependencies) ---
+node_modules/
+.pnp
 .pnp.*
 .yarn/*
 !.yarn/patches
@@ -10,32 +8,61 @@
 !.yarn/releases
 !.yarn/versions
 
-# testing
-/coverage
+# --- Next.js 產物 (Build & Output) ---
+.next/
+out/
+build/
+dist/
+*.tsbuildinfo
+next-env.d.ts
 
-# next.js
-/.next/
-/out/
+# --- 環境變數 (Environment Variables) ---
+# 嚴格禁止提交真實變數，僅允許範本
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env*.local
+# 如果你使用 Docker 專用的環境檔也應排除
+.env.docker
+# 💡 註：.env.example 應保持被 git 追蹤，用來定義合約
 
-# production
-/build
+# --- 測試與質量檢查 (Testing & Coverage) ---
+coverage/
+*.lcov
+.vitest.result.json
 
-# misc
+# --- IDE 與編輯器 (IDE Configs) ---
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json
+*.swp
+*.swo
 .DS_Store
-*.pem
+Thumbs.db
 
-# debug
+# --- 容器化與運維 (Docker & Infrastructure) ---
+docker/data/
+docker/*.log
+*.pem
+*.key
+
+# --- 日誌與除錯 (Logs & Debug) ---
+logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.pnpm-debug.log*
+pnpm-debug.log*
+.eslintcache
+.stylelintcache
 
-# env files (can opt-in for committing if needed)
-.env*
-
-# vercel
+# --- 系統與臨時文件 (Misc) ---
 .vercel
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+.turbo
+wsl/
+temp/
+tmp/

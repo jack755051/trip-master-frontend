@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  trip-master-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    expose:
+      - "3000" # ⚠️ 這裡只能寫 "3000"，只有 ports 才能寫 "宿主機:容器"
+    restart: always
+    networks:
+      - trip-network # 加入專屬網路
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - trip-master-frontend # ⚠️ 必須與上面的服務名稱一致
+    restart: always
+    networks:
+      - trip-network
+
+# 建立一個橋接網路，讓同一台 VPS 上的其他容器也能加進來
+networks:
+  trip-network:
+    name: trip-network
+    driver: bridge
