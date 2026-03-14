@@ -2,15 +2,15 @@
 
 import Link from "next/link";
 import { Heart, Map, User } from "lucide-react";
-import { BaseTripCardData } from "@/src/types/common.type";
 import { Badge } from "../ui/badge";
 import { cn } from "@/src/lib/utils";
 import { getBadgeColor } from "@/src/lib/style-helper";
 import { useState } from "react";
 import { useTranslations } from "@/src/hooks/useTranslations";
 import { TRIP_BADGE_CONFIG } from "@/src/constants/trip-badges";
+import { MarketingTripCardData } from "@/src/types/trip.type";
 
-interface TripCardProps extends BaseTripCardData {
+interface TripCardProps extends MarketingTripCardData {
   customClass?: string;
 }
 

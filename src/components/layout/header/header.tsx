@@ -1,10 +1,9 @@
 "use client";
 
-import { ReactNode } from "react";
 import { cn } from "@/src/lib/utils";
-import { BaseFooter } from "@/src/types/header.type"; // 確認路徑是否正確
+import type { HeaderSlots } from "@/src/types/header.type";
 
-interface HeaderProps extends BaseFooter {
+interface HeaderProps extends HeaderSlots {
   customClass?: string;
 }
 

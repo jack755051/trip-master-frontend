@@ -1,10 +1,10 @@
-import { BaseFooter } from "@/src/types/footer.type";
+import type { FooterCopyrightData } from "@/src/types/footer.type";
 
 export class Format {
   /**
    * Footer 版權文字工具
    * **/
-  static copyright(footer: BaseFooter, template?: string): string {
+  static copyright(footer: FooterCopyrightData, template?: string): string {
     const { name, startFrom } = footer;
 
     if (!name) return "";

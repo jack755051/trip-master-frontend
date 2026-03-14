@@ -1,10 +1,8 @@
 import { cn } from "@/src/lib/utils";
+import type { FooterNavItem } from "@/src/types/footer.type";
 import Link from "next/link";
 
-interface FooterNavProps {
-  label: string; // 已經翻譯過的文字
-  subLabel?: string; // 已經翻譯過的文字
-  href: string;
+interface FooterNavProps extends FooterNavItem {
   customClass?: string;
 }
 

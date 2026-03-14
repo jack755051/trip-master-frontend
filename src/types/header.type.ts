@@ -1,6 +1,6 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
-export type BaseFooter = {
+export type HeaderSlots = {
   left?: ReactNode;
   center?: ReactNode;
   right?: ReactNode;

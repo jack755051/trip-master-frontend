@@ -2,14 +2,12 @@
 
 import { cn } from "@/src/lib/utils";
 import { Format } from "@/src/lib/format";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import Logo from "@/src/components/common/logo";
 import { useTranslations } from "@/src/hooks/useTranslations";
+import type { FooterBaseData } from "@/src/types/footer.type";
 
-interface FooterProps {
-  startFrom?: string;
-  name?: string;
-  slogan?: string;
+interface FooterProps extends FooterBaseData {
   children?: ReactNode;
   customClass?: string;
 }
@@ -40,7 +38,7 @@ export default function Footer(props: FooterProps) {
               <p
                 className={cn(
                   "text-sm text-text-muted leading-relaxed",
-                  "min-h-[4.5rem] md:min-h-[5rem]", // 👈 設定最小高度，確保 2-3 行字都不會抖動
+                  "min-h-[4.5rem] md:min-h-[5rem]",
                 )}
               >
                 {resolvedSlogan}

@@ -1,5 +1,5 @@
 import { Flame, Star, Sparkles, LucideIcon } from "lucide-react";
-import { TripBadgeType } from "@/src/types/common.type";
+import type { TripBadgeType } from "@/src/types/trip.type";
 
 type BadgeConfig = {
   labelKey: string; // 改名為 labelKey，明確表示這是一個 i18n key
