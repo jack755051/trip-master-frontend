@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { cn } from "@/lib/utils";
+import { cn } from "@/src/lib/utils";
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
 import { useTranslations } from "@/src/hooks/useTranslations";
@@ -52,7 +52,10 @@ export default function ForgotPassword({ onSwitchLogin }: { onSwitchLogin: () =>
             type="email"
             placeholder={t("auth.email-placeholder")}
             aria-invalid={!!errors.email}
-            className={cn(inputClassName, errors.email && "border-red-500 focus-visible:ring-red-400")}
+            className={cn(
+              inputClassName,
+              errors.email && "border-red-500 focus-visible:ring-red-400",
+            )}
             {...register("email")}
           />
           <FieldError message={errors.email?.message} />

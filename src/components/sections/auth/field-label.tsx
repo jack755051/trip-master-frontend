@@ -1,5 +1,5 @@
 import type { LabelHTMLAttributes, ReactNode } from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/src/lib/utils";
 
 type FieldLabelProps = LabelHTMLAttributes<HTMLLabelElement> & {
   children: ReactNode;
@@ -14,7 +14,10 @@ export default function FieldLabel({
 }: FieldLabelProps) {
   return (
     <label
-      className={cn("mb-2 block px-1 text-xs font-semibold tracking-wide text-text-main", className)}
+      className={cn(
+        "mb-2 block px-1 text-xs font-semibold tracking-wide text-text-main",
+        className,
+      )}
       {...props}
     >
       <span>{children}</span>

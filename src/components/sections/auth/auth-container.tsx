@@ -5,7 +5,7 @@ import { useTranslations } from "@/src/hooks/useTranslations";
 import LoginForm from "./login-form";
 import RegisterForm from "./register-form";
 import ForgotPassword from "./forgot-password";
-import { cn } from "@/lib/utils";
+import { cn } from "@/src/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { relaxedBouncy } from "@/src/constants/auth-constants";
 

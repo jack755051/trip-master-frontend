@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
-import { cn } from "@/lib/utils";
+import { cn } from "@/src/lib/utils";
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
 import { Checkbox } from "@/src/components/ui/checkbox";
@@ -74,7 +74,10 @@ export default function RegisterForm({ onSwitchLogin }: { onSwitchLogin: () => v
             type="email"
             placeholder={t("auth.email-placeholder")}
             aria-invalid={!!errors.email}
-            className={cn(inputClassName, errors.email && "border-red-500 focus-visible:ring-red-400")}
+            className={cn(
+              inputClassName,
+              errors.email && "border-red-500 focus-visible:ring-red-400",
+            )}
             {...register("email")}
           />
           <FieldError message={errors.email?.message} />

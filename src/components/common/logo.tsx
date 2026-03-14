@@ -1,5 +1,5 @@
 // src/components/common/logo.tsx
-import { cn } from "@/lib/utils";
+import { cn } from "@/src/lib/utils";
 
 interface LogoProps {
   className?: string;

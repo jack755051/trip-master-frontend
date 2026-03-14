@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { cn } from "@/lib/utils";
+import { cn } from "@/src/lib/utils";
 import FooterNav from "@/src/components/layout/footer/footer-nav";
 // 引入拆分後的路由
 import { MARKETING_HEADER_ROUTES, MARKETING_FOOTER_ROUTES } from "@/src/constants/routes";
@@ -17,8 +17,7 @@ export function MarketingHeaderNav() {
     <nav className="flex items-center gap-8">
       {MARKETING_HEADER_ROUTES.map((route) => {
         const isActive =
-          pathname === route.href ||
-          (route.href !== "/" && pathname.startsWith(`${route.href}/`));
+          pathname === route.href || (route.href !== "/" && pathname.startsWith(`${route.href}/`));
 
         return (
           <Link

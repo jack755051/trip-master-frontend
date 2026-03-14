@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/src/lib/utils";
 import { Format } from "@/src/lib/format";
 import { ReactNode } from "react";
 import Logo from "@/src/components/common/logo";
@@ -20,10 +20,7 @@ export default function Footer(props: FooterProps) {
   const resolvedName = name ?? t("common.site-name");
   const resolvedSlogan = slogan ?? t("common.footer-slogan");
 
-  const copyrightText = Format.copyright(
-    { name: resolvedName, startFrom },
-    t("common.copyright"),
-  );
+  const copyrightText = Format.copyright({ name: resolvedName, startFrom }, t("common.copyright"));
 
   return (
     <footer

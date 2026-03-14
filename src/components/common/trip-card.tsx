@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Heart, Map, User } from "lucide-react";
 import { BaseTripCardData } from "@/src/types/common.type";
 import { Badge } from "../ui/badge";
-import { cn } from "@/lib/utils";
+import { cn } from "@/src/lib/utils";
 import { getBadgeColor } from "@/src/lib/style-helper";
 import { useState } from "react";
 import { useTranslations } from "@/src/hooks/useTranslations";

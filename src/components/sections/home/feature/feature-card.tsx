@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/src/lib/utils";
 import { BaseFeatureCard } from "@/src/types/home.type";
 
 // 定義 Props，這裡直接接收 string 類型的 title 和 description

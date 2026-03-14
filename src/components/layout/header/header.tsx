@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactNode } from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/src/lib/utils";
 import { BaseFooter } from "@/src/types/header.type"; // 確認路徑是否正確
 
 interface HeaderProps extends BaseFooter {

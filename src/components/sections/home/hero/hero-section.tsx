@@ -1,7 +1,7 @@
 // src/components/sections/home/hero-section.tsx
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/src/lib/utils";
 import HeroMockUp from "@/src/components/sections/home/hero/hero-mock-up";
 import HeroCopywriting from "@/src/components/sections/home/hero/hero-copywriting";
 import HeroDecorativeBackground from "@/src/components/sections/home/hero/hero-decorative-background"; // 假設你有安裝 lucide-react

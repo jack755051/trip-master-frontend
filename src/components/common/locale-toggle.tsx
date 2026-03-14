@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/src/lib/utils";
 import { relaxedBouncy } from "@/src/constants/auth-constants";
 import { localeOptions } from "@/src/config/i18n/locale-options";
 import { useTranslations } from "@/src/hooks/useTranslations";

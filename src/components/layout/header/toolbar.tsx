@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { cn } from "@/lib/utils";
+import { cn } from "@/src/lib/utils";
 import LocaleToggle from "@/src/components/common/locale-toggle";
 import { useTranslations } from "@/src/hooks/useTranslations";
 
