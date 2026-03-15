@@ -1,138 +1,141 @@
-// import { ofetch } from "ofetch";
-// import type { FetchOptions } from "ofetch";
-// import { APIResponse } from "./response/common.response";
+import { ofetch } from "ofetch";
+import type { FetchOptions, FetchContext } from "ofetch";
 
-// export type ApiErrorType =
-//   | "UNAUTHORIZED"
-//   | "FORBIDDEN"
-//   | "API_FAILED"
-//   | "NETWORK"
-//   | "TIMEOUT"
-//   | "UNKNOWN";
+// 保持你原本的 APIErrorType 與 ApiClientError 不變
+export type ApiErrorType =
+  | "UNAUTHORIZED"
+  | "FORBIDDEN"
+  | "API_FAILED"
+  | "NETWORK"
+  | "TIMEOUT"
+  | "UNKNOWN";
 
-// export class ApiClientError extends Error {
-//   type: ApiErrorType;
-//   status?: number;
-//   code?: number | string;
-//   data?: unknown;
+export class ApiClientError extends Error {
+  type: ApiErrorType;
+  status?: number;
+  code?: number | string;
+  data?: unknown;
 
-//   constructor(
-//     message: string,
-//     {
-//       type,
-//       status,
-//       code,
-//       data,
-//     }: {
-//       type: ApiErrorType;
-//       status?: number;
-//       code?: number | string;
-//       data?: unknown;
-//     },
-//   ) {
-//     super(message);
-//     this.name = "ApiClientError";
-//     this.type = type;
-//     this.status = status;
-//     this.code = code;
-//     this.data = data;
-//   }
-// }
+  constructor(
+    message: string,
+    {
+      type,
+      status,
+      code,
+      data,
+    }: { type: ApiErrorType; status?: number; code?: number | string; data?: unknown },
+  ) {
+    super(message);
+    this.name = "ApiClientError";
+    this.type = type;
+    this.status = status;
+    this.code = code;
+    this.data = data;
+  }
+}
 
-// const DEFAULT_TIMEOUT = Number(process.env.NEXT_PUBLIC_API_TIMEOUT) || 30000;
-// const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "/api/v1";
-// const DEV_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN;
+export interface APIResponse<T = unknown> {
+  success: boolean;
+  code: string | number;
+  message: string;
+  data: T;
+}
 
-// let authToken: string | null = null;
+function isBinaryResponse(option?: FetchOptions) {
+  const responseType = option?.responseType;
+  return responseType === "blob" || responseType === "arrayBuffer";
+}
 
-// export function setAuthToken(token: string | null) {
-//   authToken = token;
-// }
+// 環境感知
+const isServer = typeof window === "undefined";
 
-// function getAuthToken() {
-//   if (authToken) return authToken;
-//   if (typeof window === "undefined") return DEV_TOKEN || null;
-//   return (
-//     sessionStorage.getItem("accessToken") ||
-//     localStorage.getItem("accessToken") ||
-//     DEV_TOKEN ||
-//     null
-//   );
-// }
+function getBaseUrl() {
+  if (isServer) {
+    return process.env.INTERNAL_API_URL || "http://localhost:8080/api/v1";
+  }
 
-// function isBinaryResponse(options?: FetchOptions) {
-//   const responseType = options?.responseType;
-//   return responseType === "blob" || responseType === "arrayBuffer";
-// }
+  return process.env.NEXT_PUBLIC_API_BASE_URL || "/api/v1";
+}
 
-// /**
-//  * 统一的 API 客户端
-//  * 确保所有 API 请求都带有正确的 baseURL
-//  *
-//  * 🔥 自動處理後端的 APIResponse 包裝層
-//  * 後端返回：{ success, code, message, data: {...} }
-//  * 自動提取：{...} (data 內容)
-//  */
-// export const apiClient = ofetch.create({
-//   baseURL: BASE_URL,
-//   timeout: DEFAULT_TIMEOUT,
+// 非同步的 Token 獲取機制
+async function getAuthToken() {
+  if (isServer) {
+    try {
+      const { cookies } = await import("next/headers");
+      const cookieStore = await cookies();
+      return cookieStore.get("accessToken")?.value || null;
+    } catch (error) {
+      // 若在無法獲取 header 的上下文中，回傳 null
+      return null;
+    }
+  } else {
+    // Client 端：保持你原本的邏輯，但建議未來統一改成讀取 Cookie
+    return localStorage.getItem("accessToken") || sessionStorage.getItem("accessToken") || null;
+  }
+}
 
-//   // ✅ 響應攔截器：自動提取 APIResponse 的 data 字段
-//   async onResponse({ response, options }) {
-//     if (isBinaryResponse(options)) return;
+// 建立ofetch實例
+export const apiClient = ofetch.create({
+  timeout: Number(process.env.NEXT_PUBLIC_API_TIMEOUT) || 30000,
 
-//     // 如果響應符合 APIResponse 結構，自動提取 data
-//     if (response._data && typeof response._data === "object" && "data" in response._data) {
-//       const apiResponse = response._data as APIResponse<any>;
+  // 每次請求前動態設定Base URL
+  async onRequest({ options, request }: FetchContext) {
+    // 設定正確的URL
+    options.baseURL = getBaseUrl();
 
-//       // 檢查是否成功
-//       if (!apiResponse.success) {
-//         throw new ApiClientError(apiResponse.message || "API request failed", {
-//           type: "API_FAILED",
-//           status: response.status,
-//           code: apiResponse.code,
-//           data: apiResponse,
-//         });
-//       }
+    // 獲取並注入 Token (使用 await 因為 Server 端讀取 cookie 是異步操作)
+    const token = await getAuthToken();
 
-//       // 自動提取並替換響應為 data 內容
-//       response._data = apiResponse.data;
-//     }
-//   },
+    if (token) {
+      options.headers = new Headers(options.header || {});
+      if (!options.headers.has("Authorization")) {
+        options.headers.set("Authorization", `Bearer ${token}`);
+      }
+    }
+  },
 
-//   // 錯誤處理
-//   onResponseError({ response, error }) {
-//     if (error instanceof ApiClientError) {
-//       throw error;
-//     }
-//     if (!response) {
-//       const isTimeout =
-//         error?.name === "AbortError" ||
-//         String(error?.message || "")
-//           .toLowerCase()
-//           .includes("timeout");
-//       throw new ApiClientError(error?.message || "Network error", {
-//         type: isTimeout ? "TIMEOUT" : "NETWORK",
-//       });
-//     }
+  // 響應攔截器：自動提取 APIResponse (維持你原本的優秀邏輯)
+  async onResponse({ response, options }: FetchContext) {
+    if (isBinaryResponse(options)) return;
 
-//     const status = response.status;
-//     const type = status === 401 ? "UNAUTHORIZED" : status === 403 ? "FORBIDDEN" : "UNKNOWN";
+    if (response._data && typeof response._data === "object" && "data" in response._data) {
+      // 這裡省略了型別轉換以簡化示意
+      const apiResponse = response._data as APIResponse;
 
-//     throw new ApiClientError(response.statusText || "Request failed", {
-//       type,
-//       status,
-//       data: response._data,
-//     });
-//   },
+      if (!apiResponse.success) {
+        throw new ApiClientError(apiResponse.message || "API request failed", {
+          type: "API_FAILED",
+          status: response.status,
+          code: apiResponse.code,
+          data: apiResponse,
+        });
+      }
+      response._data = apiResponse.data;
+    }
+  },
 
-//   onRequest({ options }) {
-//     const token = getAuthToken();
-//     if (!token) return;
-//     const existingHeaders = new Headers(options.headers || {});
-//     if (!existingHeaders.has("Authorization")) {
-//       existingHeaders.set("Authorization", `Bearer ${token}`);
-//     }
-//     options.headers = existingHeaders;
-//   },
-// });
+  onResponseError({ response, error }: FetchContext) {
+    if (error instanceof ApiClientError) throw error;
+
+    if (!response) {
+      const isTimeout =
+        error?.name === "AbortError" ||
+        String(error?.message || "")
+          .toLowerCase()
+          .includes("timeout");
+
+      throw new ApiClientError(error?.message || "Network error", {
+        type: isTimeout ? "TIMEOUT" : "NETWORK",
+      });
+    }
+
+    const status = response.status;
+    const type = status === 401 ? "UNAUTHORIZED" : status === 403 ? "FORBIDDEN" : "UNKNOWN";
+
+    throw new ApiClientError(response.statusText || "Request failed", {
+      type,
+      status,
+      data: response._data,
+    });
+  },
+});

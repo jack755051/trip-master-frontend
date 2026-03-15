@@ -1,37 +1,39 @@
-import { MarketingTripCardData } from "../types/trip.type";
+// src/mocks/trips.ts
+import { TripResponseDto } from "@/src/api/response"; // 確認路徑
 
-export const MOCK_TRIPS: MarketingTripCardData[] = [
+export const MOCK_TRIPS: TripResponseDto[] = [
   {
     id: "trip-01",
     title: "東京五天四夜極簡行",
-    days: "5 天 4 夜",
-    author: "Charlie",
-    likes: 128,
-    gradient: "from-orange-100 to-rose-100 dark:from-orange-900/40 dark:to-rose-900/40",
+    subTitle: "體驗極致的日式簡約",
+    type: "NORMAL",
+    // 🎯 故意寫成 ISO 時間格式，讓你的 Format.tripDuration 去算
+    startTime: "2024-04-01T08:00:00Z",
+    endTime: "2024-04-05T20:00:00Z",
+    createdBy: "Charlie",
+    likeAmount: 600, // 🎯 故意大於 500，測試 Mapper 有沒有幫你轉成 HOT Badge
     tags: ["東京", "自由行"],
-    // 🔥 加入測試數據：熱門
-    badge: "HOT",
   },
   {
     id: "trip-02",
     title: "京阪神賞櫻深度探索",
-    days: "7 天 6 夜",
-    author: "Alice",
-    likes: 85,
-    gradient: "from-blue-100 to-indigo-100 dark:from-blue-900/40 dark:to-indigo-900/40",
+    subTitle: "春季限定絕美路線",
+    type: "EDITOR_CHOICE", // 🎯 測試 Mapper 能不能正確處理特殊 Type
+    startTime: "2024-03-25T08:00:00Z",
+    endTime: "2024-03-31T20:00:00Z",
+    createdBy: "Alice",
+    likeAmount: 85,
     tags: ["京都", "賞櫻"],
-    // 🌟 加入測試數據：精選
-    badge: "EDITOR_CHOICE",
   },
   {
     id: "trip-03",
     title: "冰島環島公路探險",
-    days: "12 天 11 夜",
-    author: "Bob",
-    likes: 342,
-    gradient: "from-slate-100 to-gray-200 dark:from-slate-800 dark:to-gray-900",
+    subTitle: "極光與冰川的交響曲",
+    type: "NEW", // 🎯 測試 NEW Badge
+    startTime: "2024-10-01T08:00:00Z",
+    endTime: "2024-10-12T20:00:00Z",
+    createdBy: "Bob",
+    likeAmount: 342,
     tags: ["冰島", "自駕"],
-    // ✨ 加入測試數據：最新 (或者你可以故意不加，測試沒有標籤的樣子)
-    badge: "NEW",
   },
 ];
