@@ -41,6 +41,8 @@ export interface APIResponse<T = unknown> {
   data: T;
 }
 
+const LOCALE_COOKIE_KEY = "NEXT_LOCALE";
+
 function isBinaryResponse(option?: FetchOptions) {
   const responseType = option?.responseType;
   return responseType === "blob" || responseType === "arrayBuffer";
@@ -74,6 +76,26 @@ async function getAuthToken() {
   }
 }
 
+// 取得語系
+async function getLocale() {
+  if (isServer) {
+    try {
+      const { cookies } = await import("next/headers");
+      const cookieStore = await cookies();
+      return cookieStore.get(LOCALE_COOKIE_KEY)?.value || "zh-TW";
+    } catch (error) {
+      return "zh-TW";
+    }
+  } else {
+    // Client 端：使用正則表達式從 document.cookie 中撈取語系
+    if (typeof document !== "undefined") {
+      const match = document.cookie.match(new RegExp("(^| )" + LOCALE_COOKIE_KEY + "=([^;]+)"));
+      if (match) return match[2];
+    }
+    return "zh-TW";
+  }
+}
+
 // 建立ofetch實例
 export const apiClient = ofetch.create({
   timeout: Number(process.env.NEXT_PUBLIC_API_TIMEOUT) || 30000,
@@ -85,17 +107,26 @@ export const apiClient = ofetch.create({
 
     // 獲取並注入 Token (使用 await 因為 Server 端讀取 cookie 是異步操作)
     const token = await getAuthToken();
+    const currentLocale = await getLocale();
 
-    if (token) {
-      options.headers = new Headers(options.header || {});
-      if (!options.headers.has("Authorization")) {
-        options.headers.set("Authorization", `Bearer ${token}`);
-      }
+    // 統一初始化 options.headers
+    options.headers = new Headers(options.headers || {});
+
+    // 注入 Token
+    if (token && !options.headers.has("Authorization")) {
+      options.headers.set("Authorization", `Bearer ${token}`);
+    }
+
+    // 將語系注入 Header，讓後端知道該給什麼語言的資料
+    if (currentLocale && !options.headers.has("Accept-Language")) {
+      options.headers.set("Accept-Language", currentLocale);
     }
   },
 
   // 響應攔截器：自動提取 APIResponse (維持你原本的優秀邏輯)
   async onResponse({ response, options }: FetchContext) {
+    if (!response) return;
+
     if (isBinaryResponse(options)) return;
 
     if (response._data && typeof response._data === "object" && "data" in response._data) {
