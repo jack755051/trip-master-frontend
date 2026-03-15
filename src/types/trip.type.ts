@@ -1,8 +1,13 @@
+export type TripDuration = {
+  days: number;
+  nights: number;
+};
+
 // 1. 最純粹的基底：不管是前台還是後台，行程一定會有的屬性
 export type BaseTrip = {
   id: string;
   title: string;
-  days: string;
+  duration: TripDuration | null;
   // 未來建議統一用 thumbnailUrl，開發期可先保留 gradient
   gradient: string;
 };

@@ -1,4 +1,6 @@
 import type { FooterCopyrightData } from "@/src/types/footer.type";
+import { TIME_MS } from "../constants";
+import { TripDuration } from "../types/trip.type";
 
 export class Format {
   /**
@@ -22,5 +24,29 @@ export class Format {
     }
     // 2. 預設回傳英文格式，使用 Unicode \u00A9 替代直接輸入 ©
     return `\u00A9 ${yearDisplay} ${name}. All rights reserved.`;
+  }
+
+  /**
+   * 計算行程天數與夜數
+   * @param startTime
+   * @param endTime
+   * @returns
+   */
+  static tripDuration(startTime: string, endTime: string): TripDuration | null {
+    const start = new Date(startTime);
+    const end = new Date(endTime);
+
+    // 建立防呆機制
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+      return null;
+    }
+
+    const diffTime = Math.abs(end.getTime() - start.getTime());
+    const diffDays = Math.ceil(diffTime / TIME_MS.DAY);
+
+    return {
+      days: diffDays > 0 ? diffDays : 1,
+      nights: diffDays > 0 ? diffDays - 1 : 0,
+    };
   }
 }
