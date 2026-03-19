@@ -1,10 +1,13 @@
+// src/components/cards/marketing-trip-card.tsx
 "use client";
 
 import { useState } from "react";
 import Link from "next/link";
-import { Heart, Map, User } from "lucide-react";
+import { useRouter } from "next/navigation"; // 🎯 引入 useRouter 處理跳轉
+import { Heart, Map, User, Copy } from "lucide-react";
 
 import { Badge } from "@/src/components/ui/badge";
+import { Button } from "@/src/components/ui/button";
 import { cn } from "@/src/lib/utils";
 import { getBadgeColor } from "@/src/lib/style-helper";
 import { useTranslations } from "@/src/hooks/useTranslations";
@@ -13,24 +16,39 @@ import type { MarketingTripCardData } from "@/src/types/trip.type";
 
 interface MarketingTripCardProps extends MarketingTripCardData {
   customClass?: string;
+  isFeatured?: boolean;
+  // 🎯 新增：控制是否顯示複製按鈕的開關
+  showCopyAction?: boolean;
 }
 
 export default function MarketingTripCard(props: MarketingTripCardProps) {
-  // 🎯 1. 解構更新：將 days 換成 duration
-  const { id, title, duration, author, likes, gradient, tags, badge, customClass } = props;
+  const {
+    id,
+    title,
+    duration,
+    author,
+    likes,
+    gradient,
+    tags,
+    badge,
+    customClass,
+    isFeatured = false,
+    showCopyAction = true, // 🎯 預設為 true，Explore 頁面就不用改
+  } = props;
 
   const [isLiked, setIsLiked] = useState(false);
   const { t } = useTranslations();
+  const router = useRouter(); // 🎯 初始化 router
 
-  // 取得右上角特殊 Badge 設定
+  // 🎯 模擬登入狀態 (未來接上真實 Auth Context)
+  const isLoggedIn = false;
+
   const badgeConfig = badge ? TRIP_BADGE_CONFIG[badge] : null;
   const BadgeIcon = badgeConfig?.icon;
 
-  // 🎯 2. 新增：處理天數的顯示與翻譯
   const renderDuration = () => {
-    if (!duration) return t("trip.duration.unknown"); // 未知天數
-    if (duration.nights === 0) return t("trip.duration.single_day"); // 單日行程
-    // 多天行程：傳入變數給翻譯檔
+    if (!duration) return t("trip.duration.unknown");
+    if (duration.nights === 0) return t("trip.duration.single_day");
     return t("trip.duration.days_and_nights", {
       days: duration.days,
       nights: duration.nights,
@@ -43,76 +61,111 @@ export default function MarketingTripCard(props: MarketingTripCardProps) {
     setIsLiked(!isLiked);
   };
 
+  const handleCopy = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    // 🎯 實作未登入跳轉邏輯
+    if (!isLoggedIn) {
+      // 記住現在的網址，登入完可以跳回來
+      const currentUrl = encodeURIComponent(window.location.pathname);
+      router.push(`/login?callbackUrl=${currentUrl}&action=copy&tripId=${id}`);
+      return;
+    }
+
+    console.log(`複製行程 ID: ${id}`);
+    // TODO: 呼叫 API 複製行程
+  };
+
   return (
     <Link
       href={`/explore/${id}`}
       className={cn(
-        "group flex flex-col bg-card rounded-2xl border border-border/50 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1",
+        "group flex flex-col bg-card rounded-3xl border border-border/40 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1.5 hover:shadow-brand/10",
+        isFeatured ? "min-h-[420px]" : "min-h-[360px]",
         customClass,
       )}
     >
-      {/* 封面圖區塊 */}
       <div
-        className={`relative aspect-[4/3] w-full bg-gradient-to-br ${gradient} p-4 flex flex-col justify-between`}
+        className={cn(
+          "relative w-full flex flex-col justify-between overflow-hidden",
+          isFeatured ? "aspect-[16/10] md:flex-1" : "aspect-[4/3]",
+        )}
       >
-        {/* 左上角：天數 Badge */}
-        <div className="flex gap-2 relative z-10">
+        <div
+          className={cn(
+            "absolute inset-0 bg-gradient-to-br transition-transform duration-700 ease-out group-hover:scale-105",
+            gradient,
+          )}
+        />
+
+        {/* 🎯 用 showCopyAction 包覆 Hover 效果與複製按鈕 */}
+        {showCopyAction && (
+          <>
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 z-10" />
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-out z-20 pointer-events-none">
+              <Button
+                onClick={handleCopy}
+                size={isFeatured ? "lg" : "default"}
+                className="rounded-full shadow-lg bg-brand text-brand-foreground hover:bg-brand-hover pointer-events-auto"
+              >
+                <Copy className="w-4 h-4 mr-2" />
+                複製此行程
+              </Button>
+            </div>
+          </>
+        )}
+
+        <div className="flex justify-between p-4 relative z-30 pointer-events-none">
           <Badge
             variant="secondary"
-            className="bg-white/70 dark:bg-black/50 backdrop-blur-md border-0 text-[10px] font-semibold text-foreground shadow-sm hover:bg-white/80 dark:hover:bg-black/60"
+            className="bg-white/90 dark:bg-black/80 backdrop-blur-md border border-white/20 text-[10px] font-semibold text-foreground shadow-sm"
           >
             <Map className="mr-1 h-3 w-3" />
-            {/* 🎯 3. 呼叫翻譯函式渲染天數 */}
             {renderDuration()}
           </Badge>
-        </div>
 
-        {/* 右上角：特殊 Badge (HOT / NEW) */}
-        {badgeConfig && BadgeIcon && (
-          <div className="absolute top-4 right-4 z-10">
+          {badgeConfig && BadgeIcon && (
             <span
               className={cn(
-                "flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-bold shadow-lg backdrop-blur-sm",
+                "flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold shadow-md backdrop-blur-sm border border-white/20",
                 badgeConfig.color,
               )}
             >
               <BadgeIcon className="w-3 h-3 fill-current" />
               {t(badgeConfig.labelKey)}
             </span>
-          </div>
-        )}
-
-        {/* 右下角：愛心按鈕 */}
-        <button
-          onClick={handleLike}
-          className={cn(
-            "self-end rounded-full p-2 shadow-sm transition-all duration-200 group/heart relative z-10",
-            isLiked
-              ? "bg-red-50 dark:bg-red-900/30 text-red-500 scale-110"
-              : "bg-white/70 dark:bg-black/50 backdrop-blur-md hover:scale-110 hover:bg-white dark:hover:bg-black/70",
           )}
-        >
-          <Heart
+        </div>
+
+        <div className="p-4 flex justify-end relative z-30 pointer-events-none">
+          <button
+            onClick={handleLike}
             className={cn(
-              "h-4 w-4 transition-colors",
+              "rounded-full p-2.5 shadow-md backdrop-blur-md transition-all duration-300 relative pointer-events-auto border border-white/20",
               isLiked
-                ? "fill-current text-red-500"
-                : "text-muted-foreground group-hover/heart:text-red-500",
+                ? "bg-red-50 dark:bg-red-900/40 text-red-500 scale-110"
+                : "bg-white/80 dark:bg-black/60 hover:scale-110 hover:bg-white dark:hover:bg-black/80",
             )}
-          />
-        </button>
+          >
+            <Heart
+              className={cn(
+                "h-4 w-4 transition-colors",
+                isLiked ? "fill-current text-red-500" : "text-foreground/70 hover:text-red-500",
+              )}
+            />
+          </button>
+        </div>
       </div>
 
-      {/* 內容資訊區塊 (保持不變) */}
-      <div className="p-5 flex flex-col flex-1">
+      <div className="p-5 md:p-6 flex flex-col flex-1 bg-card relative z-30">
         <div className="flex gap-2 mb-3 flex-wrap">
           {tags.map((tag) => (
             <Badge
               key={tag}
               variant="secondary"
               className={cn(
-                "text-[10px] font-medium border-0 rounded-md px-2 py-0.5 transition-colors",
-                getBadgeColor(tag),
+                "text-[10px] font-medium border-0 rounded-md px-2 py-0.5 transition-colors bg-muted/50 text-muted-foreground",
               )}
             >
               {tag}
@@ -120,19 +173,24 @@ export default function MarketingTripCard(props: MarketingTripCardProps) {
           ))}
         </div>
 
-        <h3 className="text-lg font-bold text-foreground mb-4 line-clamp-2 group-hover:text-brand transition-colors">
+        <h3
+          className={cn(
+            "font-bold text-foreground mb-4 line-clamp-2 group-hover:text-brand transition-colors",
+            isFeatured ? "text-xl md:text-2xl" : "text-lg",
+          )}
+        >
           {title}
         </h3>
 
-        <div className="mt-auto flex items-center justify-between border-t border-border/50 pt-4">
+        <div className="mt-auto flex items-center justify-between border-t border-border/40 pt-4">
           <div className="flex items-center gap-2">
-            <div className="h-6 w-6 rounded-full bg-muted flex items-center justify-center">
-              <User className="h-3 w-3 text-muted-foreground" />
+            <div className="h-7 w-7 rounded-full bg-brand/10 border border-brand/20 flex items-center justify-center">
+              <User className="h-3.5 w-3.5 text-brand" />
             </div>
-            <span className="text-xs text-muted-foreground font-medium">{author}</span>
+            <span className="text-sm text-muted-foreground font-medium">{author}</span>
           </div>
-          <div className="flex items-center gap-1 text-xs text-muted-foreground">
-            <Heart className="h-3 w-3 fill-current opacity-70" />
+          <div className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground">
+            <Heart className="h-3.5 w-3.5 fill-current opacity-70" />
             {isLiked ? likes + 1 : likes}
           </div>
         </div>

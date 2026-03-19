@@ -1,1 +1,1 @@
-export { MarketingTripCard } from "./marketing-trip-card";
+export { default as MarketingTripCard } from "./marketing-trip-card";

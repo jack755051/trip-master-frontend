@@ -19,7 +19,7 @@ export default function TrendingSectionClient({ trips }: { trips: MarketingTripC
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {trips.map((trip) => (
-            <MarketingTripCard key={trip.id} {...trip} />
+            <MarketingTripCard key={trip.id} {...trip} showCopyAction={false} />
           ))}
         </div>
 

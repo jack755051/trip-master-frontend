@@ -22,7 +22,7 @@ export default async function RootLayout({
   const locale = resolveLocale(cookieStore.get(LOCALE_COOKIE_KEY)?.value);
 
   return (
-    <html lang={locale}>
+    <html lang={locale} suppressHydrationWarning>
       <body className={inter.className}>
         {/* 2. 在這裡包裹全域 Provider */}
         <I18nProvider initialLocale={locale}>{children}</I18nProvider>

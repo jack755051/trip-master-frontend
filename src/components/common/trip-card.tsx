@@ -16,10 +16,20 @@ interface TripCardProps extends MarketingTripCardData {
 
 export default function TripCard(props: TripCardProps) {
   // 解構 badge
-  const { id, title, days, author, likes, gradient, tags, badge, customClass } = props;
+  const { id, title, duration, author, likes, gradient, tags, badge, customClass } = props;
 
   const [isLiked, setIsLiked] = useState(false);
   const { t } = useTranslations();
+
+  const renderDuration = () => {
+    if (!duration) return t("trip.duration.unknown");
+    if (duration.nights === 0) return t("trip.duration.single_day");
+
+    return t("trip.duration.days_and_nights", {
+      days: duration.days,
+      nights: duration.nights,
+    });
+  };
 
   // 1. 取得 Config (如果有 badge 的話)
   const badgeConfig = badge ? TRIP_BADGE_CONFIG[badge] : null;
@@ -51,7 +61,7 @@ export default function TripCard(props: TripCardProps) {
             className="bg-white/70 dark:bg-black/50 backdrop-blur-md border-0 text-[10px] font-semibold text-foreground shadow-sm hover:bg-white/80 dark:hover:bg-black/60"
           >
             <Map className="mr-1 h-3 w-3" />
-            {days}
+            {renderDuration()}
           </Badge>
         </div>
 

@@ -2,7 +2,7 @@
 
 services:
   trip-master-frontend:
-    image: trip-master-frontend:${APP_VERSION:-latest}
+    image: trip-master-frontend:${NEXT_PUBLIC_APP_VERSION:-latest}
     build:
       context: .
       dockerfile: Dockerfile
